@@ -1,0 +1,86 @@
+{% extends 'GCNAFNAFBundle::layout.html.twig' %}
+{% block content %}			
+    <p id="msg"> => Liste des Salariés</p>	
+    <table border="0"  width="100%">
+        <tr valign="middle"  width="100%">
+            <td align="left"  width="75%">
+                <form  method="post" {{ form_enctype(form) }} action="{{ path('GCNAFNAFBundle_salaries_search') }}">{{ form_start(form) }}{{ form_errors(form) }}
+                <div>
+                <pre id="label">{{ form_label(form.nom) }} {{ form_widget(form.nom) }} <input type="submit" value="Go" /></pre>					
+                {{ form_errors(form.nom) }}
+                </div>{{ form_end(form) }}
+                </form>
+            </td>
+            <td align="right" width="25%">
+                <div>
+                <a href="{{ path('GCNAFNAFBundle_salaries_ajouter') }}">Ajouter un Salarié</a>
+                </div>
+            </td>
+        </tr>
+    </table>
+    {% if(entities) %}
+        <table border="1" width="100%" id="tableau" summary="Liste des salariés"
+            <thead>
+            <tr>							
+                <th scope="col" widh="15%"><div align="center" id="myip">Nom            </div></th>	
+                <th scope="col" widh="15%"><div align="center" id="myip">Prénom         </div></th>
+                <th scope="col"  widh="15%"><div align="center" id="myip">Profil         </div></th>
+                <th scope="col" widh="15%"><div align="center" id="myip">Login          </div></th>							
+                <th scope="col" widh="10%"><div align="center" id="myip">Date d'embauche</div></th>
+                <th scope="col" widh="10%"><div align="center" id="myip">Date sortie    </div></th>							
+                <th scope="col" widh="10%"><div align="center" id="myip">CIN            </div></th>
+                <th scope="col" widh="5%" ><div align="center" id="myip">Modifier       </div></th>
+                <th scope="col" widh="5%" ><div align="center" id="myip">Supprimer      </div></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for a in entities %}						
+                <tr>
+                    <td widh="15%" id="myip">{{ a.nom }}</td><td id="myip">{{ a.prenom }}</td>
+                    <td id="myip">{{ a.nomProf }}</td>
+                    <td id="myip">{{ a.login }}</td><td id="myip">{{ a.dateEmb|date("d/m/Y") }}</td> 
+                    {%if (a.dateSor != null) %}
+                            <td id="myip">{{ a.dateSor|date("d/m/Y") }}</td>
+                    {% else %}            
+                        <td id="myip"></td>
+                    {% endif %}
+                    <td id="myip">{{ a.cin }}</td>  			
+                    <td> <a href="{{ path('GCNAFNAFBundle_salaries_modifier', { 'id': a.id }) }}">							
+                            <div align="center"> <img src="{{ asset('bundles/gcnafnaf/images/edit.png') }}" title="Modifier" width="12" height="12"> </div> 
+                        </a>
+                    </td>
+                    <td> <a href="{{ path('GCNAFNAFBundle_salaries_supprimer', { 'id': a.id }) }}">
+                            <div align="center"> <img src="{{ asset('bundles/gcnafnaf/images/sup.jpg') }}" title="Supprimer" width="12" height="12"> </div>
+                        </a>
+                    </td>
+                </tr>				
+            {% endfor %}
+            <tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="9">
+                        <strong>{{ Nb_per_affiche }}/{{ total_articles }}</strong> Salariés dans la page {% if last_page > 1 %} - page <strong>{{ current_page }}/{{ last_page }} {% endif %}</strong>
+                    </td>
+                </tr>
+            </tfoot>                
+        </table>
+    {% else %}
+        Aucun salarié n'a été trouvé <br/><br/>
+    {% endif %}				
+    {% if last_page > 1 %}
+        <a href="{{ path('GCNAFNAFBundle_salaries', { 'page': 1 }) }}"> Début </a> 
+        <a href="{{ path('GCNAFNAFBundle_salaries', { 'page': previous_page }) }}"> << </a>	
+
+        {% for page in 1..last_page %}
+            {% if page == current_page %}
+                {{ page }}
+            {% else %}
+                <a href="{{ path('GCNAFNAFBundle_salaries', { 'page': page }) }}"> {{ page }} </a>
+            {% endif %}
+        {% endfor %}
+
+        <a href="{{ path('GCNAFNAFBundle_salaries', { 'page': next_page }) }}">  >> </a> 
+        <a href="{{ path('GCNAFNAFBundle_salaries', { 'page': last_page }) }}">  Fin </a>
+    {% endif %}    
+    <br/><br/>    
+{% endblock %}

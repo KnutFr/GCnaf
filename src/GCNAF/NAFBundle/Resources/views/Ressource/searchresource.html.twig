@@ -1,0 +1,46 @@
+{% extends 'GCNAFNAFBundle::layout.html.twig' %}
+{% block title %}Gestion Congés NAF{% endblock %}
+{% block titre %}Espace Administrateur - Gestion des Salariés {% endblock %}	
+
+{% block content %}			
+    <form  method="post" {{ form_enctype(form) }} action="{{ path('GCNAFNAFBundle_salaries_search') }}">{{ form_start(form) }}{{ form_errors(form) }}
+        <div><pre id="label">{{ form_label(form.nom) }} {{ form_widget(form.nom) }} <input type="submit" value="Go" /></pre>					
+            {{ form_errors(form.nom) }}</div>{{ form_end(form) }}
+    </form>
+    {% if message %}<p><font color="#FF00FF">{{ message }}</font></p>{% endif %}	
+        {% if mon_user %}
+        <br/><br/><br/><br/><br/>		
+        <table border="1">
+            <tr>							
+                <td><font color="#CC0000"><div align="center" id="myip">Nom            </div></font></td>	
+                <td><font color="#CC0000"><div align="center" id="myip">Prénom         </div></font></td>
+                <td><font color="#CC0000"><div align="center" id="myip">Profil         </div></font></td>
+                <td><font color="#CC0000"><div align="center" id="myip">Login          </div></font></td>							
+                <td><font color="#CC0000"><div align="center" id="myip">Date d'embauche</div></font></td>
+                <td><font color="#CC0000"><div align="center" id="myip">Date sortie    </div></font></td>							
+                <td><font color="#CC0000"><div align="center" id="myip">CIN            </div></font></td>
+                <td><font color="#CC0000"><div align="center" id="myip">Modifier       </div></font></td>
+                <td><font color="#CC0000"><div align="center" id="myip">Supprimer      </div></font></td>
+            </tr>
+            {% for a in mon_user %}						
+                <tr>
+                    <td widh="15%" id="myip">{{ a.nom }}</td><td id="myip">{{ a.prenom }}</td>
+                    <td id="myip">{{ a.nomProf }}</td>
+                    <td id="myip">{{ a.login }}</td><td id="myip">{{ a.dateEmb }}</td> <td id="myip">{{ a.dateSor }}</td><td id="myip">{{ a.cin }}</td>  			
+                    <td> <a href="{{ path('GCNAFNAFBundle_salaries_modifier', { 'id': a.id }) }}">							
+                            <div align="center"> <img src="{{ asset('bundles/gcnafnaf/images/edit.png') }}" title="Modifier" width="12" height="12"> </div> 
+                        </a>
+                    </td>
+                    <td> <a href="{{ path('GCNAFNAFBundle_salaries_supprimer', { 'id': a.id }) }}">
+                            <div align="center"> <img src="{{ asset('bundles/gcnafnaf/images/sup.jpg') }}" title="Supprimer" width="12" height="12"> </div>
+                        </a>
+                    </td>
+                </tr>				
+            {% endfor %}
+        </table>		
+    {% endif %}					
+    <p>
+        => <a href="{{ path('GCNAFNAFBundle_salaries') }}">Retour à la liste des salariés</a><br/>
+        => <a href="{{ path('GCNAFNAFBundle_salaries_ajouter') }}">Ajouter un Salarié</a>
+    </p>							
+{% endblock %}

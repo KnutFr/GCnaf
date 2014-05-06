@@ -1,0 +1,33 @@
+{% extends 'GCNAFNAFBundle::layoutlogin.html.twig' %}
+{% block content %}	
+    <div align="center">	
+        {% if  message %}				
+            <p id="msg">{{ message }}</p>
+        {% endif %}				
+        <br/>
+        <form  method="post" {{ form_enctype(form) }}>					
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
+            <div >
+                <p class="double">{{ form_label(form.login) }}       {{ form_widget(form.login) }}</p>
+                {{ form_errors(form.login) }}								
+            </div>
+            <br/>
+            <div >
+                <p class="double">{{ form_label(form.pwd) }}       {{ form_widget(form.pwd) }}</p>
+                {{ form_errors(form.pwd) }}								                
+            </div>
+            <br/>
+            <div >
+                <table border="0" align="center">
+                    <tr>                    
+                        <td width="100px">{{ form_label(form.btnConnect) }} {{ form_widget(form.btnConnect) }}</td>
+                        <td></td>
+                    </tr>
+                </table>                
+            </div>    
+            <br/>
+           {{ form_end(form) }}					
+        </form>	
+    </div>								
+{% endblock %}

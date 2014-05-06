@@ -1,0 +1,38 @@
+{% extends 'GCNAFNAFBundle::layout.html.twig' %}
+{% block content %}	
+    <div align="center">	
+        {% if  message %}				
+            <p id="msg">{{ message }}</p>
+        {% endif %}				
+        <br/>
+        <form  method="post" {{ form_enctype(form) }}>					
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
+            <div >
+                <p class="double">{{ form_label(form.oldPassword) }}       {{ form_widget(form.oldPassword) }}</p>
+                {{ form_errors(form.oldPassword) }}								
+            </div>
+            <br/>
+            <div >
+                <p class="double">{{ form_label(form.newPassword) }}       {{ form_widget(form.newPassword) }}</p>
+                {{ form_errors(form.newPassword) }}								
+            </div>
+            <br/>
+            <div >
+                <p class="double">{{ form_label(form.confirmPassword) }}       {{ form_widget(form.confirmPassword) }}</p>
+                {{ form_errors(form.confirmPassword) }}								
+            </div>
+            <br/>            
+            <div >
+                <table border="0" align="center">
+                    <tr>                    
+                        <td width="100px">{{ form_label(form.btnChange) }} {{ form_widget(form.btnChange) }}</td>
+                        <td></td>
+                    </tr>
+                </table>                
+            </div>    
+            <br/>
+           {{ form_end(form) }}					
+        </form>	
+    </div>								
+{% endblock %}

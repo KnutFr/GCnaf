@@ -1,0 +1,109 @@
+
+    
+        {% block head %}
+            <!-- META -->
+            <meta content="text/html; charset=utf-8" />			
+            <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+            <meta name="description" content="" />
+            <meta name="author" content="" />
+            <meta name="viewport" content="width=device-width,initial-scale=1" />
+            <title>
+            {% block title %}Norsys Afrique - Gestion des congés{% endblock %}
+        </title>				
+        <!-- CSS -->
+        <link rel="stylesheet" href="{{ asset('bundles/gcnafnaf/css/NAFstyle.css') }}" type="text/css" media="all" />
+        <link rel="stylesheet" href="{{ asset('bundles/gcnafnaf/css/jquery-ui.css') }}" type="text/css" media="all"/>
+        <!-- Script JS -->
+        <script type="text/javascript" src="{{ asset('bundles/gcnafnaf/js/jquery.js') }}"  /></script>
+        <script type="text/javascript" src="{{ asset('bundles/gcnafnaf/js/jquery-maskedinput-1-3-min.js') }}" /></script>
+
+    <script type="text/javascript">
+        jQuery(function($){
+           $("#date").mask("99/99/9999");
+        });
+    </script>
+
+{% endblock %}	
+</head>
+
+<!-- Définir le profil début -->    
+{% if app.session.get('profilCod')=='admin' %}
+    {% set Mytitre = 'Espace Administrateur -' %}
+{% elseif app.session.get('profilCod')=='chef' %}
+    {% set Mytitre = 'Espace Chef d équipe -'%}
+{%else %}
+    {% set Mytitre = 'Espace Utilisateur -' %}
+{%endif %}
+<!-- Définir le profil fin-->    
+{% block baliseBody %} <body> {% endblock %}
+    {% block body %}
+        <div id="content" >			
+            <div id="top" >
+                <div >
+                    <!-- Titre de la page -->
+                    <table border='0' width='100%' cellspacing="0" cellepadding="0">
+                        <tr class="trEntete" width='100%'>
+                        <td class ="tdEntete" align='left'>
+                            &nbsp;&nbsp;&nbsp;<b>Gestion Congés - Norsys Afrique</b>
+                        </td>
+                        <td class ="tdEntete" align='right' >    
+                            <img src="{{ asset('bundles/gcnafnaf/images/logo.png') }}" title="" />
+                        </td>
+                    </tr>
+                    </table>                        
+                    <!-- Titre de la page -->
+                </div>				
+            </div>
+            {% block menu %}
+                {% if app.session.get('profilCod')=='admin' %}
+                    <ul id="menu" >
+                        <li class="menu"><a href="#" >Demandes Congés</a></li>
+                        <li class="menu"><a href="#" >Gestion Compteurs</a></li>
+                        <li class="menu"><a href="{{ path('GCNAFNAFBundle_salaries')}}" >Gestion Salariés</a></li>
+                        <li class="menu"><a href="{{ path('GCNAFNAFBundle_jours')}}" >Jours Fériés</a></li>
+                        <li class="menu"><a href="{{ path('GCNAFNAFBundle_chef_equipe')}}" >Affectation Equipe</a></li>
+                        <li class="menu"><a href="{{ path('GCNAFNAFBundle_change_password')}}" >Changement mot de passe</a></li>
+                    </ul>
+                {% elseif app.session.get('profilCod')=='chef' %}    
+                    <ul id="menu" >
+                        <li class="menu"><a href="#" >Demandes Congés</a></li>
+                        <li class="menu"><a href="{{ path('GCNAFNAFBundle_salaries')}}" >Gestion Salariés</a></li>
+                        <li class="menu"><a href="{{ path('GCNAFNAFBundle_change_password')}}" >Changement mot de passe</a></li>
+                    </ul>
+                {% else %}
+                    <ul id="menu" >
+                        <li class="menu"><a href="#" >Demandes Congés</a></li>
+                        <li class="menu"><a href="{{ path('GCNAFNAFBundle_change_password')}}" >Changement mot de passe</a></li>
+                    </ul>
+                {% endif %}
+            {% endblock %}
+            <div id="page" >		
+                <h1>
+         {% block titre %} 
+                    <table border='0' width='100%'>
+                    <tr>
+                        <td class="tdtitre">        
+                            {% if Mytitre %}{{ Mytitre }} {% endif %}  
+                            {% if app.session.get('nom') %}{{ app.session.get('nom') }} {% endif %}
+                            {% if app.session.get('prenom') %}{{ app.session.get('prenom') }}{% endif %}                     
+                        </td>
+                        <td align='right'>    
+                            <a href="{{ path('GCNAFNAFBundle_goout')}}" >Déconnecter</a>
+                        </td>
+                    </tr>
+                    </table>
+                {% endblock %}
+                </h1>
+                <br/>					
+                {% block content %}					
+                {% endblock %}
+            </div>				
+            <div id="footer" >
+                <!-- Texte Bas de page à modifier  -->
+                @2014-2015 |Norsys Afrique|Gestion congés
+                <!-- Fin Bas de page à modifier  -->
+            </div>				
+        </div>			
+    {% endblock %}	<!--End block body-->			
+</body>
+</html>
